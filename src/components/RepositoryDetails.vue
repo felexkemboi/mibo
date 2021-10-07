@@ -60,16 +60,31 @@ import axios from 'axios';
 @Component
 export default class RepositoryDetails extends Vue {
   private currentRepository = {} as Repository;
+  private commits:any = {}
 
   async getRepository(name:string) {
     await axios.get(`https://api.github.com/repos/holoplot/${name}`)
       .then((res) => {
         //this.$store.dispatch('setRepos', res.data);
-        console.log(res.data);
+        //console.log(res.data);
         this.currentRepository = res.data;
+        this.getCommits(name)
       })
       .catch((e) => {
         alert('error in loading repos' + e);
+      });
+  }
+
+  async getCommits(name:string){
+        await axios.get(`https://api.github.com/repos/holoplot/${name}/commits`)
+      .then((res) => {
+        //this.$store.dispatch('setRepos', res.data);
+        //console.log(res.data);
+        this.commits = res.data.slice(0, 20);
+        console.log(this.commits);
+      })
+      .catch((e) => {
+        alert('error in loading commits' + e);
       });
   }
 
