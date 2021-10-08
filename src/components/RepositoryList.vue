@@ -6,13 +6,16 @@
           <h4  class="navbar-item">Holoplot’s (public) Repositories</h4>
         </div>
       </nav>
-    <div class="notification is-success" style="width: 400px;">
-      <ol type="1">
-        <li v-for="(repository, index) in repositories" :key="index">
-            <router-link :to="'/repository/' + repository.name">{{ repository.name }}</router-link>
-        </li>
-      </ol>
-    </div>
+      <div class="container">
+        <div class="notification is-primary">
+          <ol type="1">
+            <li v-for="(repository, index) in repositories" :key="index">
+                <router-link :to="'/repository/' + repository.name">{{ repository.name }}</router-link>
+            </li>
+          </ol>
+        </div>
+      </div>
+    <!-- </div> -->
     </div>
   </div>
 </template>
