@@ -6,15 +6,10 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: "/",
-    alias: "/repos",
+    alias: "/home",
     name: "repositories",
-    component: () => import("../components/RepositoryList.vue")
+    component: () => import("../components/Home.vue")
   },
-  {
-    path: "/repository/:name",
-    name: "repository-details",
-    component: () => import("../components/RepositoryDetails.vue")
-  }
 ];
 
 const router = new VueRouter({

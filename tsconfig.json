@@ -24,7 +24,10 @@
       "dom",
       "dom.iterable",
       "scripthost"
-    ]
+    ],
+    "noImplicitReturns": true,
+"strictPropertyInitialization": false,
+"emitDecoratorMetadata": true,
   },
   "include": [
     "src/**/*.ts",
@@ -35,5 +38,5 @@
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
 }
