@@ -1,17 +1,15 @@
 <template>
   <div id="app">
     <div class="mt-3">
-      <div class="container content">
-        <div class="card">
-          <div class="card-content">
-            <div class="header">
-              <button @click="reset()" class="button is-primary centre" style="margin-bottom:10px;">Reset</button>
-            </div>
-            <div id="grid-template">
-              <div id="container">
-                <div v-for="(i,index) in items" :key="index">
-                  <div  class="grid-item" :style="style(i.selected)" @click="change(i)">{{ `${i.value}` }}</div>
-                </div>
+      <div class="container content card" style="height: 500px;">
+        <div class="card-content">
+          <div class="header">
+            <button @click="reset()" class="button is-primary centre" style="margin-bottom:10px;">Reset</button>
+          </div>
+          <div id="grid-template">
+            <div id="container">
+              <div v-for="(i,index) in items" :key="index">
+                <div  class="grid-item" :style="style(i.selected)" @click="change(i)">{{ `${i.value}` }}</div>
               </div>
             </div>
           </div>
@@ -65,13 +63,13 @@ export default class App extends Vue {
     for (let item of newVal) {
       values.push(item.value)
     }
-    if(this.longestFibonacci(values) >= 5){
+    if(this.fibonacciAchieved(values) >= 5){
       console.log('there is a fibonacci greater than 5 here')
       //Get the indices of the array and change there color
     }
   }
 
-  longestFibonacci = (arr:number[]) => {
+  fibonacciAchieved(arr:number[]){
     const map = arr.reduce((acc: any, num, index: any) => {
         acc[num] = index
         return acc
