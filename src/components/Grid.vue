@@ -1,10 +1,10 @@
 <template>
   <div class="wrapper">
-    <button @click="reset()">Sawa</button>
+    <button @click="reset()">Reset</button>
     <div id="grid-template">
       <div id="container">
         <div v-for="(i,index) in items" :key="index">
-          <button class="grid-item" @click="change(i)">{{ `${i.value}` }}</button>
+          <div  class="grid-item" :style="style(i)" @click="change(i)">{{ `${i.value}` }}</div>
         </div>
       </div>
     </div>
@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import GridItem from '../types/GridItem'
 
 @Component
@@ -23,10 +23,27 @@ export default class Grid extends Vue {
   change(i: number): void{
     for (let item of this.items) {
       if(item.row == i.row || item.column == i.column){
-        this.items = this.items.map(obj => obj.key === item.key ? { ...obj, value: obj.value + 1 } : obj);
+        this.items = this.items.map(obj => obj.key === item.key ? { ...obj, value: obj.value + 1, selected: true } : obj);
       }
     }
+
+    setTimeout(() => {
+      for (let item of this.items) {
+        if(item.row == i.row || item.column == i.column){
+          this.items = this.items.map(obj => obj.key === item.key ? { ...obj, selected: false } : obj);
+        }
+      }; 
+    }, 200);
+
+
+
   }
+
+  style(i){
+    return i.selected ? 'background-color: yellow' : ''
+  }
+
+
 
   reset(){
 
@@ -36,27 +53,42 @@ export default class Grid extends Vue {
     }
   }
 
-  // const longestFibonacci = (arr = []) => {
 
-  //  const map = arr.reduce((acc, num, index) => { acc[num] = index return acc}, {});
+  @Watch('items', { 
+      immediate: true, deep: true 
+  })
 
-  //  const memo = arr.map(() => arr.map(() => 0));
+  itemsChanged(newVal) {
+    let values = []
+    for (let item of newVal) {
+      values.push(item.value)
+    }
+    if(this.longestFibonacci(values) >= 5){
+      console.log('there is a fibonacci greater than 5 here')
+      //Get the indices of the array and change there color
+    }
+  }
 
-  //  let max = 0;
-
-  //  for(let i = 0; i < arr.length; i++) {
-  //     for(let j = i + 1; j < arr.length; j++) {
-  //        const a = arr[i]
-  //        const b = arr[j]
-  //        const index = map[b - a]
-  //        if(index < i) {
-  //           memo[i][j] = memo[index][i] + 1
-  //        }
-  //        max = Math.max(max, memo[i][j])
-  //     }
-  //  }
-  //  return max > 0 ? max + 2 : 0
-  // }
+  const longestFibonacci = (arr = []) => {
+    const map = arr.reduce((acc, num, index) => {
+        acc[num] = index
+        return acc
+    }, {})
+    const memo = arr.map(() => arr.map(() => 0))
+    let max = 0
+    for(let i = 0; i < arr.length; i++) {
+        for(let j = i + 1; j < arr.length; j++) {
+          const a = arr[i]
+          const b = arr[j]
+          const index = map[b - a]
+          if(index < i) {
+              memo[i][j] = memo[index][i] + 1
+          }
+          max = Math.max(max, memo[i][j])
+        }
+    }
+    return max > 0 ? max + 2 : 0
+  };
 
 
   mounted() {
@@ -85,7 +117,8 @@ export default class Grid extends Vue {
         key: i,
         value: 0,
         row: row,
-        column: column
+        column: column,
+        selected: false
       });
     }
   }
@@ -101,7 +134,7 @@ export default class Grid extends Vue {
 #container {
   display: grid;
   grid-gap: 1em;
-  grid-template-rows: repeat(5, 1fr);
+  grid-template-rows: repeat(10, 1fr);
   grid-template-columns: repeat(10, 1fr);
 }
 

@@ -3,4 +3,5 @@ export default interface GridItem {
   value: number, 
   row: number, 
   column: number,
+  selected: boolean
 }
