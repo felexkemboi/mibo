@@ -64,8 +64,7 @@ export default class App extends Vue {
       values.push(item.value)
     }
     if(this.fibonacciAchieved(values) >= 5){
-      console.log('there is a fibonacci greater than 5 here')
-      //Get the indices of the array and change there color
+      alert('There is a fibonacci sequence')
     }
   }
 
